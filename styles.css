@@ -86,5 +86,23 @@ button {
 
 button:hover {
     background-color: #4c5a6e;
-    transition: 0.2s;
+    transition: 0.1s;
+}
+
+#clear {
+    background-color: rgb(206, 61, 61);
+}
+
+#delete {
+    background-color: rgb(29, 201, 201);
+}
+
+#clear:hover {
+    background-color: rgb(151, 45, 45);
+    transition: 0.1;
+}
+
+#delete:hover {
+    background-color: rgb(23, 156, 156);
+    transition: 0.1s;
 }

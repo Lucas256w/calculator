@@ -92,6 +92,18 @@ const clear = document.querySelector('#clear');
 for (let num of nums) {
     num.addEventListener('click', () => {
         if(num.textContent =='.') {
+            if(displayValue == '.' || displayValue == '' || displayValue == '0'){
+                if(!secondNum){
+                    displayValue = '0.'
+                    num1 = displayValue
+                    toDisplay(displayValue)
+                }
+                else{
+                    displayValue = '0.'
+                    num2 = displayValue
+                    toDisplay(displayValue)
+                }
+            }
             if (displayValue.includes(".")) {
                 return
             }
@@ -156,15 +168,20 @@ for (let operator of operators) {
 equal.addEventListener('click', () => {
     if(secondNum && num2 != null) {
         // num2 = displayValue;
-        if(num2 == '0' && currentOperator == '÷'){
-                error();
-        }
-        else{
+        // if((num2 == '0' || num2 == '0.0'|| num2 == '0.' || num2 == '.0')&& currentOperator == '÷'){
+        //         error();
+        // }
+        // else{
             toLastDisplay(num1+currentOperator+num2+"=")
             operate(currentOperator ,num1, num2);
-            toDisplay(displayValue)
-            secondNum = false
-        }
+            if (displayValue == 'Infinity'){
+                error()
+            }
+            else{
+                toDisplay(displayValue)
+                secondNum = false
+            }
+        // }
     }
 })
 
