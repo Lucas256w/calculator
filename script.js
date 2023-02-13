@@ -91,10 +91,15 @@ const clear = document.querySelector('#clear');
 
 for (let num of nums) {
     num.addEventListener('click', () => {
-        if(num.textContent == '0' && num1 == null) {
+        if(num.textContent =='.') {
+            if (displayValue.includes(".")) {
+                return
+            }
+        }
+        if((num.textContent == '0' && num1 == null) || displayValue == '0') {
             displayValue = '';
         }
-        else if(!secondNum && num2 !=null) {
+        if(!secondNum && num2 ==null) {
             displayValue += num.textContent;
             num1 = displayValue;
             toDisplay(displayValue);
@@ -164,8 +169,16 @@ equal.addEventListener('click', () => {
 })
 
 del.addEventListener('click', () => {
-    displayValue = displayValue.substring(0, displayValue.length - 1);
-    toDisplay(displayValue)
+    if (secondNum) {
+        displayValue = displayValue.substring(0, displayValue.length - 1);
+        num2 = displayValue;
+        toDisplay(displayValue)
+    }
+    else {
+        displayValue = displayValue.substring(0, displayValue.length - 1);
+        num1 = displayValue;
+        toDisplay(displayValue)
+    }
 })
 
 clear.addEventListener('click', () => {

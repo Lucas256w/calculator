@@ -79,8 +79,8 @@ button {
     flex: 1;
     background-color: #778da9;
     font-family: courier, sans-serif;
-    cursor: pointer;
     font-size: 20px;
+    cursor: pointer;
 }
 
 
