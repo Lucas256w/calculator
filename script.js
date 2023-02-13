@@ -1,29 +1,25 @@
 let displayValue = '';
 let newDisplayValue = '';
 let secondNum = false;
-let currentOperator
-let num1;
-let num2;
+let currentOperator = null;
+let num1 = null;
+let num2 = null;
 
 function adding(a, b) {
     displayValue = +(+a + +b).toFixed(4)
-    toDisplay(displayValue)
 
 };
 
 function subtracting(a, b) {
     displayValue = +(+a - +b).toFixed(4)
-    toDisplay(displayValue)
 };
 
 function multiplying(a, b) {
     displayValue = +(+a * +b).toFixed(4)
-    toDisplay(displayValue)
 };
 
 function dividing(a, b) {
     displayValue = +(+a / +b).toFixed(4)
-    toDisplay(displayValue)
 };
 
 function operate(operator, a, b) {
@@ -41,7 +37,6 @@ function operate(operator, a, b) {
             dividing(a, b);
             break;
     }
-    secondNum = false
     displayValue = displayValue.toString();
 }
 
@@ -54,6 +49,17 @@ function toLastDisplay(value) {
     lastScreen.textContent = value;
 }
 
+function cleared() {
+    displayValue = '';
+    newDisplayValue = '';
+    secondNum = false;
+    currentOperator = null;
+    num1 = null;
+    num2 = null;
+    toDisplay(0);
+    toLastDisplay('')
+}
+
 const nums = document.querySelectorAll('.num');
 const currentScreen = document.querySelector('#currentscreen');
 const lastScreen = document.querySelector('#lastscreen');
@@ -63,14 +69,24 @@ const multiply = document.querySelector('#multiply');
 const divide = document.querySelector('#divide');
 const equal = document.querySelector('#equal');
 const del = document.querySelector('#delete')
+const clear = document.querySelector('#clear');
 
-// divide.addEventListener('click', () => {
-//     console.log(divide.textContent);
-// })
+
 for (let num of nums) {
     num.addEventListener('click', () => {
-        displayValue += num.textContent
-        toDisplay(displayValue);
+        if(num.textContent == '0' && num1 == null) {
+            displayValue = '';
+        }
+        else if(!secondNum && num2 !=null) {
+            displayValue += num.textContent;
+            num1 = displayValue;
+            toDisplay(displayValue);
+        }
+        else {
+            displayValue += num.textContent;
+            num2 = displayValue;
+            toDisplay(displayValue);
+        }
     });
 }
 
@@ -78,7 +94,16 @@ const operators = [add, subtract, multiply, divide];
 
 for (let operator of operators) {
     operator.addEventListener('click', () => {
-        if(!secondNum) {
+        if(!secondNum && displayValue == ''){
+            displayValue = '0'
+            num1 = '0';
+            currentOperator = operator.textContent;
+            newDisplayValue = displayValue + currentOperator;
+            toLastDisplay(newDisplayValue);
+            displayValue = ''
+            secondNum = true;
+        }
+        else if(!secondNum) {
             num1 = displayValue;
             currentOperator = operator.textContent;
             newDisplayValue = displayValue + currentOperator;
@@ -86,24 +111,49 @@ for (let operator of operators) {
             displayValue = ''
             secondNum = true;
         }
-        else if(currentOperator != operator.textContent) {
+        else if(currentOperator != operator.textContent && num2 == null) {
             newDisplayValue = newDisplayValue.slice(0,newDisplayValue.length-1) + operator.textContent;
             currentOperator = operator.textContent;
             toLastDisplay(newDisplayValue)
         }
+        else if(num2 != null) {
+            operate(currentOperator ,num1, num2);
+            num1 = displayValue
+            currentOperator = operator.textContent;
+            newDisplayValue = displayValue + currentOperator;
+            toLastDisplay(newDisplayValue)
+            displayValue = ''
+            num2 = null;
+
+        }
+        
     
     })
 }
 
 equal.addEventListener('click', () => {
-    if(secondNum) {
-        num2 = displayValue;
-        toLastDisplay(num1+currentOperator+num2+"=")
-        operate(currentOperator ,num1, num2);
+    if(secondNum && num2 != null) {
+        // num2 = displayValue;
+        if(num2 == '0' && currentOperator == '÷'){
+            toDisplay('Error')
+            setTimeout(cleared(), 200000)
+            // setTimeout(toDisplay('Error'), 1000)
+            // cleared();
+        }
+        else{
+            toLastDisplay(num1+currentOperator+num2+"=")
+            operate(currentOperator ,num1, num2);
+            toDisplay(displayValue)
+            secondNum = false
+        }
     }
 })
 
 del.addEventListener('click', () => {
     displayValue = displayValue.substring(0, displayValue.length - 1);
     toDisplay(displayValue)
+})
+
+clear.addEventListener('click', () => {
+    cleared();
 })
