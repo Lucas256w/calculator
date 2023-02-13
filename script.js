@@ -60,6 +60,23 @@ function cleared() {
     toLastDisplay('')
 }
 
+function delay(milliseconds){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+async function error(){
+    toLastDisplay('')
+    toDisplay('Error');
+    await delay(250);
+    cleared();
+    await delay(250);
+    toDisplay('Error')
+    await delay(250);
+    cleared();
+};
+
 const nums = document.querySelectorAll('.num');
 const currentScreen = document.querySelector('#currentscreen');
 const lastScreen = document.querySelector('#lastscreen');
@@ -135,10 +152,7 @@ equal.addEventListener('click', () => {
     if(secondNum && num2 != null) {
         // num2 = displayValue;
         if(num2 == '0' && currentOperator == '÷'){
-            toDisplay('Error')
-            setTimeout(cleared(), 200000)
-            // setTimeout(toDisplay('Error'), 1000)
-            // cleared();
+                error();
         }
         else{
             toLastDisplay(num1+currentOperator+num2+"=")
