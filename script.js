@@ -167,11 +167,6 @@ for (let operator of operators) {
 
 equal.addEventListener('click', () => {
     if(secondNum && num2 != null) {
-        // num2 = displayValue;
-        // if((num2 == '0' || num2 == '0.0'|| num2 == '0.' || num2 == '.0')&& currentOperator == '÷'){
-        //         error();
-        // }
-        // else{
             toLastDisplay(num1+currentOperator+num2+"=")
             operate(currentOperator ,num1, num2);
             if (displayValue == 'Infinity'){
@@ -181,7 +176,6 @@ equal.addEventListener('click', () => {
                 toDisplay(displayValue)
                 secondNum = false
             }
-        // }
     }
 })
 
